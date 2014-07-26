@@ -1,12 +1,16 @@
 library(shiny)
 
+
 shinyUI(navbarPage(fluid = FALSE, em("Duration of Old Faithful geyser eruption"),
     tabPanel("Application",
         titlePanel(title = strong(em("Prediction of the duration of the eruption of Old Faithful geyser in Yellowstone National Park, Wyoming, USA")), windowTitle = "Prediction of eruption of Old Faithful geyser"),
         sidebarLayout(
             sidebarPanel(
                 h4("Waiting time to next eruption"),
-                numericInput("in_wait_time", "Enter the desired waiting time (in mins)", 70, min = 43, max = 96, step = 1),
+                numericInput("in_wait_time", em("Enter the desired waiting time (in mins)"), 70, min = 43, max = 96, step = 1),
+                checkboxInput("points", em("Show sample points"), TRUE),
+                uiOutput("lm"),
+                uiOutput("semiTrans"),
                 p(),
                 submitButton("Submit")
                 ),
@@ -26,9 +30,10 @@ shinyUI(navbarPage(fluid = FALSE, em("Duration of Old Faithful geyser eruption")
             p("This application predicts the duration of an eruption as a linear function of the waiting time to the next eruption. The linear function is simply the regression line of the duration of the eruption vs the waiting time to the next eruption."),
             h4("How it works"),
             p("You have to enter a waiting time (in minutes) to the next eruption in the left-hand panel and then click on the Submit button. The waiting times entered must be between 43 mins and 96 mins to avoid extrapolation. If this is not the case the application will display the error message : Entered waiting time off limits !"),
+            p("You may also choose to display the sample points and/or the regression line; if the regression line is plotted a slider allows to select the transparency level of the sample points from 10 (less transparent) to 90 (more transparent). Your choices will only be displayed after you click on the Submit button."),
             h4("Results"),
             p("The predicted duration of the eruption (in minutes) obtained from the waiting time entered will be displayed in the main panel as will be a reminder of the waiting time entered."),
-            p("Below you will also find a plot of eruption duration vs waiting time to next eruption. The regression line used for predicting the duration is also displayed (in blue) as are the coordinates of the prediction (in red).")
+            p("Below you will also find a plot of eruption duration vs waiting time to next eruption. The regression line used for predicting the duration is also displayed in blue (if selected) as are the coordinates of the prediction (in red).")
         )
     )
 )
